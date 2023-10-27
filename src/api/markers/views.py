@@ -3,31 +3,37 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
 from .models import Marker
-from .serializers import MarkerSerializer, UserMarkerSerializer
+from .serializers import MarkerSerializer
 from api.users.models import CustomUser
+
 
 class MarkerCreate(CreateAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
 
     def create(self, request, *args, **kwargs):
-        # print(request.data)
+
         marker_serializer = self.get_serializer(data=request.data)
-        # print(marker_serializer)
-        marker_serializer.is_valid(raise_exception=True)
-        marker = marker_serializer.save()
-        
-        user_id = request.data['user']
-        user = CustomUser.objects.get(pk=user_id)
 
-        user_marker_data = {
-            'user': user.id,
-            'marker': marker.id,
-        }
+        if marker_serializer.is_valid(raise_exception=True):
+            user = CustomUser.objects.get(pk=request.data['user'])
+            name = request.data['name']
+            brand = request.data['brand']
+            model = request.data['model']
+            serial_number = request.data['serial_number']
+            details = request.data['details']
+            
+            marker = Marker.objects.create(
+                user=user,
+                name=name,
+                brand=brand,
+                model=model,
+                serial_number=serial_number,
+                details=details,
+                update=
+            )
 
-        user_marker_serializer = UserMarkerSerializer(data=user_marker_data)
-        user_marker_serializer.is_valid(raise_exception=True)
-        user_marker_serializer.save()
+            print(marker)
 
-        return Response({'message': 'Marker and UserMarker created successfully'},
+        return Response({"message": "Marker created successfully"},
                         status.HTTP_201_CREATED)

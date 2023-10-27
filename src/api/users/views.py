@@ -12,7 +12,7 @@ from api.users.serializers import UserCreateSerializer
 from api.users.functions import generate_session
 
 
-class GoogleAuthAPIView(CreateAPIView):
+class UserAuthGoogleAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
 
     def create(self, request, *args, **kwargs):
@@ -49,4 +49,4 @@ class GoogleAuthAPIView(CreateAPIView):
 
         except ValueError:
             return Response({"message": "Invalid credential"},
-                            status.HTTP_401_UNAUTHORIZED)
+                            status.HTTP_403_FORBIDDEN)

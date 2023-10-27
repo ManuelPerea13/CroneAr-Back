@@ -1,6 +1,6 @@
 from django.urls import path
-from api.users.views import GoogleAuthAPIView
+from api.users.views import UserAuthGoogleAPIView
 
 urlpatterns = [
-    path('users/google-auth/', GoogleAuthAPIView.as_view()),
+    path('auth/', UserAuthGoogleAPIView.as_view()),
 ]

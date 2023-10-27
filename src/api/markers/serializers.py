@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from .models import Marker, UserMarker
+
+from api.users.models import CustomUser
 
 
-class MarkerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Marker
-        fields = '__all__'
-
-
-class UserMarkerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserMarker
-        fields = '__all__'
+class MarkerSerializer(serializers.Serializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(),required=False)
+    name = serializers.CharField()
+    brand = serializers.CharField()
+    model = serializers.CharField()
+    serial_number = serializers.CharField()
+    details = serializers.CharField()

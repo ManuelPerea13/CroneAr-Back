@@ -7,7 +7,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'first_name', 'last_name', 'username', 'google_id', 'session')
+        fields = ('id',
+                  'email',
+                  'first_name',
+                  'last_name',
+                  'username',
+                  'google_id',
+                  'session'
+                  )
 
     def get_session(self, user):
         session = Session.objects.get(user=user)
